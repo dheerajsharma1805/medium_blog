@@ -1,0 +1,1 @@
+export const BASE_URL = "https://backend.mohitsharma190817.workers.dev/api/v1";
