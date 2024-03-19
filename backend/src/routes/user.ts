@@ -48,6 +48,7 @@ userRouter.post('/signin', async (c) => {
 	}).$extends(withAccelerate());
 
 	const body = await c.req.json();
+    console.log("body ", body);
     const { success } = signInInputs.safeParse(body);
     if(!success) {
         c.status(411);
@@ -55,10 +56,11 @@ userRouter.post('/signin', async (c) => {
             message: "Invalid Inputs"
         })
     }
+    console.log("success ", success);
 	try {
 		const user = await prisma.user.findUnique({
 			where: {
-				email: body.email,
+				email: body.username,
 				password: body.password
 			}
 		});
@@ -70,6 +72,6 @@ userRouter.post('/signin', async (c) => {
 		return c.json({ jwt });
 	} catch(e) {
 		c.status(403);
-		return c.json({ error: "error while signing in" });
+		return c.json({ error: "error while signing in" , e});
 	}
 })
